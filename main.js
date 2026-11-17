@@ -168,15 +168,16 @@
   const card = () => $('.city').getBoundingClientRect().width + 20;
   const sync = () => {
     const max = rail.scrollWidth - rail.clientWidth;
-    const p = max > 0 ? rail.scrollLeft / max : 0;
-    const w = Math.max(14, (rail.clientWidth / rail.scrollWidth) * 100);
-    bar.style.width = w + '%';
-    bar.style.transform = `translateX(${p * ((100 / w) - 1) * 100}%)`;
+    const p = max > 0 ? Math.min(1, Math.max(0, rail.scrollLeft / max)) : 0; // clamp: iOS rubber-banding overshoots
+    const track = bar.parentElement.clientWidth;
+    const w = Math.min(track, Math.max(48, (rail.clientWidth / rail.scrollWidth) * track));
+    bar.style.width = w + 'px';
+    bar.style.transform = `translate3d(${p * (track - w)}px,0,0)`;
     prev.disabled = rail.scrollLeft < 4;
     next.disabled = rail.scrollLeft > max - 4;
   };
   rail.addEventListener('scroll', sync, { passive: true });
-  addEventListener('resize', sync); sync();
+  addEventListener('resize', sync); addEventListener('load', sync); sync();
   prev.addEventListener('click', () => rail.scrollBy({ left: -card(), behavior: 'smooth' }));
   next.addEventListener('click', () => rail.scrollBy({ left: card(), behavior: 'smooth' }));
   // free, inertial mouse-drag (no snapping); touch & trackpad use native momentum

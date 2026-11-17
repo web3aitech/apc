@@ -41,7 +41,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
 }
+html { overflow-x: clip; }
 img, svg, video { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
@@ -78,6 +81,12 @@ h1, h2, h3, h4, p, figure { margin: 0; }
 .loader.out { opacity: 0; visibility: hidden; pointer-events: none; }.loader-logo {
   width: clamp(190px, 24vw, 300px); height: auto;
   animation: loaderLogo 1.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+/* Shine: a CSS animation (starts at first paint, so it also plays on a cold, uncached load) */
+.loader-logo .shine { transform-origin: 0 0; animation: loaderShine 1s cubic-bezier(0.45, 0, 0.2, 1) 0.12s both; }
+@keyframes loaderShine {
+  from { transform: translateX(-3400px) skewX(-22deg); }
+  to { transform: translateX(10800px) skewX(-22deg); }
 }
 @keyframes loaderLogo {
   0% { opacity: 0; transform: scale(0.94); }
@@ -176,7 +185,7 @@ body.menu-open .menu a.m:nth-child(3) { transition-delay: 0.35s; } body.menu-ope
 .menu .menu-cta { margin-top: 40px; }
 
 /* ───────────────────────── Hero ───────────────────────── */
-.hero { padding-top: clamp(132px, 17vw, 200px); text-align: center; position: relative; }
+.hero { padding-top: clamp(132px, 17vw, 200px); text-align: center; position: relative; overflow-x: clip; }
 .hero::before {
   content: ""; position: absolute; left: 50%; top: -10%; width: min(1100px, 130vw); aspect-ratio: 1.6; transform: translateX(-50%);
   background: radial-gradient(closest-side, rgba(217, 200, 162, 0.10), transparent 70%);
@@ -311,7 +320,7 @@ body.menu-open .menu a.m:nth-child(3) { transition-delay: 0.35s; } body.menu-ope
 .city .cap span { font-size: 14px; color: var(--ink-3); }
 .tour-progress { margin: 40px auto 0; max-width: var(--max); padding-inline: var(--gutter); }
 .tour-progress div { height: 1px; background: var(--line); position: relative; }
-.tour-progress i { position: absolute; left: 0; top: -1px; height: 3px; width: 20%; background: var(--ink); border-radius: 3px; transition: transform 0.15s linear; }
+.tour-progress i { position: absolute; left: 0; top: -1px; height: 3px; width: 20%; background: var(--ink); border-radius: 3px; will-change: transform; }
 
 /* ───────────────────────── Testimonials ───────────────────────── */
 .t-head { display: flex; justify-content: space-between; align-items: end; gap: 32px; flex-wrap: wrap; margin-bottom: clamp(48px, 6vw, 80px); }
@@ -482,6 +491,11 @@ section + section.dark-border, .faq-sec { border-top: 0; }
 }
 @media (max-width: 600px) {
   .video-frame { border-radius: 16px; }
+  .quote { width: 252px; padding: 22px; gap: 20px; border-radius: 20px; }
+  .quote p { font-size: 14px; line-height: 1.55; }
+  .quote img { width: 34px; height: 34px; }
+  .quote footer b { font-size: 13px; }
+  .quote footer span { font-size: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .t-plane { transform: rotateX(5deg) rotateY(-2deg) rotateZ(-1deg) !important; }
