@@ -1,6 +1,4 @@
-(() => {
-  window.__ready = true; // tells the page's safety net that this script loaded
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+(() => {  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
 
