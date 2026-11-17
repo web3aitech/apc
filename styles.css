@@ -82,12 +82,6 @@ h1, h2, h3, h4, p, figure { margin: 0; }
   width: clamp(190px, 24vw, 300px); height: auto;
   animation: loaderLogo 1.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-/* Shine: a CSS animation (starts at first paint, so it also plays on a cold, uncached load) */
-.loader-logo .shine { transform-origin: 0 0; animation: loaderShine 1s cubic-bezier(0.45, 0, 0.2, 1) 0.12s both; }
-@keyframes loaderShine {
-  from { transform: translateX(-3400px) skewX(-22deg); }
-  to { transform: translateX(10800px) skewX(-22deg); }
-}
 @keyframes loaderLogo {
   0% { opacity: 0; transform: scale(0.94); }
   20% { opacity: 1; }
